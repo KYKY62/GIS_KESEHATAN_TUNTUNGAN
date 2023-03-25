@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "849341735670",
+    "project_id": "gis-project-bd123",
+    "storage_bucket": "gis-project-bd123.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:849341735670:android:e50e48b2ebcb0eec5642d7",
+        "android_client_info": {
+          "package_name": "com.example.learn_flutter_map"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "849341735670-pero881irt87n8585l8caes6dn1vk6pj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAD14vSY3efiYATRbkVY-2kHCb-mJV1R0M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "849341735670-pero881irt87n8585l8caes6dn1vk6pj.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "849341735670-d3o0bkdooehv2aub2nahapmr74btod9o.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.learnFlutterMap"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

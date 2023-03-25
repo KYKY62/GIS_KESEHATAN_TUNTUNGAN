@@ -1,8 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:get/get.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:learn_flutter_map/controller/home_controller.dart';
+import 'package:learn_flutter_map/view/home/utils/shdialog.dart';
 
 class HomePage extends StatelessWidget {
   HomePage({
@@ -10,6 +12,7 @@ class HomePage extends StatelessWidget {
   });
 
   final homeC = Get.put(HomeC());
+  final db = FirebaseFirestore.instance;
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +26,16 @@ class HomePage extends StatelessWidget {
         children: [
           GestureDetector(
             onTap: () {
-              homeC.ismark.value = 'all';
+              db
+                  .collection('layananKesehatan')
+                  .where('type', isEqualTo: 'apotik')
+                  .get()
+                  .then((value) {
+                for (var docSnapshot in value.docs) {
+                  docSnapshot['type'] == 'apotik';
+                  print(docSnapshot['type']);
+                }
+              });
             },
             child: const CircleAvatar(
               backgroundColor: Colors.white,
@@ -35,7 +47,16 @@ class HomePage extends StatelessWidget {
           ),
           GestureDetector(
             onTap: () {
-              homeC.ismark.value = "hospital";
+              db
+                  .collection('layananKesehatan')
+                  .where('type', isEqualTo: 'hospital')
+                  .get()
+                  .then((value) {
+                for (var docSnapshot in value.docs) {
+                  docSnapshot['type'] == 'hospital';
+                  print(docSnapshot['type']);
+                }
+              });
             },
             child: const CircleAvatar(
               backgroundColor: Colors.white,
@@ -92,7 +113,79 @@ class HomePage extends StatelessWidget {
               ),
             ],
           ),
-          Obx(() => MarkerLayer(markers: homeC.markerlist())),
+          StreamBuilder<QuerySnapshot>(
+            stream: db.collection('layananKesehatan').snapshots(),
+            builder: (context, snapshot) {
+              List<Marker> markers = [];
+              if (snapshot.hasError) {
+                return const Text('Something went wrong');
+              }
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Text("Loading");
+              }
+
+              // for (var doc in snapshot.data!.docs[1]['type']) {
+              //   if (doc['type'] == 'hospital') {
+              //     for (var doc in snapshot.data!.docs) {
+              //       print(doc.data());
+              //       GeoPoint geoPoint = doc['latlong'];
+              //       Marker marker = Marker(
+              //         point: LatLng(geoPoint.latitude, geoPoint.longitude),
+              //         builder: (context) => GestureDetector(
+              //           onTap: () => Shdialog.shdialogWidget(
+              //             context,
+              //             doc['title'],
+              //             doc['description'],
+              //           ),
+              //           child: const Icon(
+              //             Icons.pin_drop,
+              //           ),
+              //         ),
+              //       );
+              //       markers.add(marker);
+              //     }
+              //   } else {
+              //     if (doc['type'] == 'apotik') {
+              //       print(doc.data());
+              //       GeoPoint geoPoint = doc['latlong'];
+              //       Marker marker = Marker(
+              //         point: LatLng(geoPoint.latitude, geoPoint.longitude),
+              //         builder: (context) => GestureDetector(
+              //           onTap: () => Shdialog.shdialogWidget(
+              //             context,
+              //             doc['title'],
+              //             doc['description'],
+              //           ),
+              //           child: const Icon(
+              //             Icons.pin_drop,
+              //           ),
+              //         ),
+              //       );
+              //       markers.add(marker);
+              //     }
+              //   }
+              // }
+              // ! Belum Fix
+              for (var doc in snapshot.data!.docs) {
+                GeoPoint geoPoint = doc['latlong'];
+                Marker marker = Marker(
+                  point: LatLng(geoPoint.latitude, geoPoint.longitude),
+                  builder: (context) => GestureDetector(
+                    onTap: () => Shdialog.shdialogWidget(
+                      context,
+                      doc['title'],
+                      doc['description'],
+                    ),
+                    child: const Icon(
+                      Icons.pin_drop,
+                    ),
+                  ),
+                );
+                markers.add(marker);
+              }
+              return MarkerLayer(markers: markers);
+            },
+          ),
         ],
       ),
     );

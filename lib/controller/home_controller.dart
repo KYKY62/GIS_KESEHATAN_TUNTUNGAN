@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:get/get.dart';
 import 'package:latlong2/latlong.dart';
@@ -7,9 +8,11 @@ import 'package:learn_flutter_map/view/home/utils/shdialog.dart';
 class HomeC extends GetxController {
   var ismark = 'all'.obs;
   var marker = <Marker>[].obs;
+  final db = FirebaseFirestore.instance;
 
   List<Marker> markerlist() {
-    if (ismark.value == 'hospital') {
+    db.collection('layananKesehatan').where('type', isEqualTo: 'bidan').get();
+    if (ismark.value == 'hopstial') {
       return marker.value = [
         Marker(
           point: LatLng(3.4979292, 98.5757571),
