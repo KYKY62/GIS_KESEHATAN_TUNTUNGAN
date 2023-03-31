@@ -26,37 +26,19 @@ class HomePage extends StatelessWidget {
         children: [
           GestureDetector(
             onTap: () {
-              db
-                  .collection('layananKesehatan')
-                  .where('type', isEqualTo: 'apotik')
-                  .get()
-                  .then((value) {
-                for (var docSnapshot in value.docs) {
-                  docSnapshot['type'] == 'apotik';
-                  print(docSnapshot['type']);
-                }
-              });
+              homeC.filter.value = 'praktik dokter';
             },
             child: const CircleAvatar(
               backgroundColor: Colors.white,
               child: Icon(
-                Icons.favorite,
+                Icons.healing,
                 color: Colors.red,
               ),
             ),
           ),
           GestureDetector(
             onTap: () {
-              db
-                  .collection('layananKesehatan')
-                  .where('type', isEqualTo: 'hospital')
-                  .get()
-                  .then((value) {
-                for (var docSnapshot in value.docs) {
-                  docSnapshot['type'] == 'hospital';
-                  print(docSnapshot['type']);
-                }
-              });
+              homeC.filter.value = 'hospital';
             },
             child: const CircleAvatar(
               backgroundColor: Colors.white,
@@ -68,24 +50,12 @@ class HomePage extends StatelessWidget {
           ),
           GestureDetector(
             onTap: () {
-              homeC.ismark.value = 'klinik';
+              homeC.filter.value = 'apotik';
             },
             child: const CircleAvatar(
               backgroundColor: Colors.white,
               child: Icon(
-                Icons.local_police,
-                color: Colors.red,
-              ),
-            ),
-          ),
-          GestureDetector(
-            onTap: () {
-              homeC.ismark.value = 'puskesmas';
-            },
-            child: const CircleAvatar(
-              backgroundColor: Colors.white,
-              child: Icon(
-                Icons.family_restroom,
+                Icons.local_pharmacy_outlined,
                 color: Colors.red,
               ),
             ),
@@ -94,8 +64,10 @@ class HomePage extends StatelessWidget {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       body: FlutterMap(
+        nonRotatedChildren: const [],
         options: MapOptions(
           center: LatLng(3.524420, 98.620612),
+          interactiveFlags: InteractiveFlag.pinchZoom | InteractiveFlag.drag,
         ),
         children: [
           TileLayer(
@@ -113,81 +85,55 @@ class HomePage extends StatelessWidget {
               ),
             ],
           ),
-          StreamBuilder<QuerySnapshot>(
-            stream: db.collection('layananKesehatan').snapshots(),
-            builder: (context, snapshot) {
-              List<Marker> markers = [];
-              if (snapshot.hasError) {
-                return const Text('Something went wrong');
-              }
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Text("Loading");
-              }
+          Obx(
+            () => StreamBuilder<QuerySnapshot>(
+              stream: homeC.filter.value == 'default'
+                  ? db.collection('layananKesehatan').snapshots()
+                  : db
+                      .collection('layananKesehatan')
+                      .where('type', isEqualTo: homeC.filter.value)
+                      .snapshots(),
+              builder: (context, snapshot) {
+                print("Ini didalam stream ${homeC.filter.value}");
+                List<Marker> markers = [];
+                if (snapshot.hasError) {
+                  return const Text('Something went wrong');
+                }
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(child: CircularProgressIndicator());
+                }
 
-              // for (var doc in snapshot.data!.docs[1]['type']) {
-              //   if (doc['type'] == 'hospital') {
-              //     for (var doc in snapshot.data!.docs) {
-              //       print(doc.data());
-              //       GeoPoint geoPoint = doc['latlong'];
-              //       Marker marker = Marker(
-              //         point: LatLng(geoPoint.latitude, geoPoint.longitude),
-              //         builder: (context) => GestureDetector(
-              //           onTap: () => Shdialog.shdialogWidget(
-              //             context,
-              //             doc['title'],
-              //             doc['description'],
-              //           ),
-              //           child: const Icon(
-              //             Icons.pin_drop,
-              //           ),
-              //         ),
-              //       );
-              //       markers.add(marker);
-              //     }
-              //   } else {
-              //     if (doc['type'] == 'apotik') {
-              //       print(doc.data());
-              //       GeoPoint geoPoint = doc['latlong'];
-              //       Marker marker = Marker(
-              //         point: LatLng(geoPoint.latitude, geoPoint.longitude),
-              //         builder: (context) => GestureDetector(
-              //           onTap: () => Shdialog.shdialogWidget(
-              //             context,
-              //             doc['title'],
-              //             doc['description'],
-              //           ),
-              //           child: const Icon(
-              //             Icons.pin_drop,
-              //           ),
-              //         ),
-              //       );
-              //       markers.add(marker);
-              //     }
-              //   }
-              // }
-              // ! Belum Fix
-              for (var doc in snapshot.data!.docs) {
-                GeoPoint geoPoint = doc['latlong'];
-                Marker marker = Marker(
-                  point: LatLng(geoPoint.latitude, geoPoint.longitude),
-                  builder: (context) => GestureDetector(
-                    onTap: () => Shdialog.shdialogWidget(
-                      context,
-                      doc['title'],
-                      doc['description'],
+                for (var doc in snapshot.data!.docs) {
+                  GeoPoint geoPoint = doc['latlong'];
+                  Marker marker = Marker(
+                    point: LatLng(geoPoint.latitude, geoPoint.longitude),
+                    builder: (context) => GestureDetector(
+                      onTap: () => Shdialog.shdialogWidget(
+                        context,
+                        doc['title'],
+                        doc['description'],
+                      ),
+                      child: const Icon(
+                        Icons.pin_drop,
+                      ),
                     ),
-                    child: const Icon(
-                      Icons.pin_drop,
-                    ),
-                  ),
-                );
-                markers.add(marker);
-              }
-              return MarkerLayer(markers: markers);
-            },
-          ),
+                  );
+                  markers.add(marker);
+                }
+                return MarkerLayer(markers: markers);
+              },
+            ),
+          )
         ],
       ),
     );
   }
+}
+
+Future<List<DocumentSnapshot>> getDataByType(String type) async {
+  var snapshots = await FirebaseFirestore.instance
+      .collection('layananKesehatan')
+      .where('type', isEqualTo: type)
+      .get();
+  return snapshots.docs;
 }

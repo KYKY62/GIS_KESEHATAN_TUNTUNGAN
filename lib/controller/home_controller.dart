@@ -7,6 +7,7 @@ import 'package:learn_flutter_map/view/home/utils/shdialog.dart';
 
 class HomeC extends GetxController {
   var ismark = 'all'.obs;
+  var filter = 'default'.obs;
   var marker = <Marker>[].obs;
   final db = FirebaseFirestore.instance;
 
