@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:learn_flutter_map/controller/home_controller.dart';
 import 'package:learn_flutter_map/view/home/utils/shdialog.dart';
+import 'package:learn_flutter_map/view/home/utils/speed_dial_utils.dart';
 
 class HomePage extends StatelessWidget {
   HomePage({
@@ -21,48 +22,15 @@ class HomePage extends StatelessWidget {
         title: const Text("Flutter Map"),
         actions: const [],
       ),
-      floatingActionButton: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          GestureDetector(
-            onTap: () {
-              homeC.filter.value = 'praktik dokter';
-            },
-            child: const CircleAvatar(
-              backgroundColor: Colors.white,
-              child: Icon(
-                Icons.healing,
-                color: Colors.red,
-              ),
-            ),
-          ),
-          GestureDetector(
-            onTap: () {
-              homeC.filter.value = 'hospital';
-            },
-            child: const CircleAvatar(
-              backgroundColor: Colors.white,
-              child: Icon(
-                Icons.local_hospital,
-                color: Colors.red,
-              ),
-            ),
-          ),
-          GestureDetector(
-            onTap: () {
-              homeC.filter.value = 'apotik';
-            },
-            child: const CircleAvatar(
-              backgroundColor: Colors.white,
-              child: Icon(
-                Icons.local_pharmacy_outlined,
-                color: Colors.red,
-              ),
-            ),
-          ),
-        ],
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButton: SpeedDialUtils(
+        semuaFasilitas: () => homeC.filter.value = 'default',
+        praktikDokter: () => homeC.filter.value = 'praktik dokter',
+        hospital: () => homeC.filter.value = 'hospital',
+        apotik: () => homeC.filter.value = 'apotik',
+        puskesmas: () => homeC.filter.value = 'puskesmas',
+        klinik: () => homeC.filter.value = 'klinik',
+      ).speedDialUtils(),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       body: FlutterMap(
         nonRotatedChildren: const [],
         options: MapOptions(
@@ -94,7 +62,6 @@ class HomePage extends StatelessWidget {
                       .where('type', isEqualTo: homeC.filter.value)
                       .snapshots(),
               builder: (context, snapshot) {
-                print("Ini didalam stream ${homeC.filter.value}");
                 List<Marker> markers = [];
                 if (snapshot.hasError) {
                   return const Text('Something went wrong');
