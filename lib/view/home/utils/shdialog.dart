@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class Shdialog {
   static void shdialogWidget(
     context,
     String name,
-    String desc,
+    String kategori,
+    String link,
   ) async {
     await showDialog<void>(
       context: context,
@@ -15,7 +17,28 @@ class Shdialog {
           content: SingleChildScrollView(
             child: ListBody(
               children: [
-                Text(desc),
+                Text(
+                  "Kategori : $kategori",
+                  style: const TextStyle(
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+                const SizedBox(
+                  height: 10.0,
+                ),
+                GestureDetector(
+                  onTap: () => launchUrl(
+                    Uri.parse(link),
+                    mode: LaunchMode.externalNonBrowserApplication,
+                  ),
+                  child: const Text(
+                    "Direction",
+                    style: TextStyle(
+                      fontWeight: FontWeight.w500,
+                      color: Colors.blue,
+                    ),
+                  ),
+                )
               ],
             ),
           ),

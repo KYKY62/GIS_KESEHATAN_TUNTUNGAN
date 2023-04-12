@@ -1,4 +1,4 @@
-package com.example.learn_flutter_map
+package com.example.gis_kesehatan
 
 import io.flutter.embedding.android.FlutterActivity
 

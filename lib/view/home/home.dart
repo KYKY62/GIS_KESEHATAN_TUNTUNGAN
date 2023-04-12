@@ -77,8 +77,9 @@ class HomePage extends StatelessWidget {
                     builder: (context) => GestureDetector(
                       onTap: () => Shdialog.shdialogWidget(
                         context,
-                        doc['title'],
                         doc['description'],
+                        doc['title'],
+                        doc['link'],
                       ),
                       child: const Icon(
                         Icons.pin_drop,

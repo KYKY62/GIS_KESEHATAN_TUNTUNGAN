@@ -2,101 +2,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:get/get.dart';
 import 'package:latlong2/latlong.dart';
-import 'package:flutter/material.dart';
-import 'package:learn_flutter_map/view/home/utils/shdialog.dart';
 
 class HomeC extends GetxController {
   var ismark = 'all'.obs;
   var filter = 'default'.obs;
   var marker = <Marker>[].obs;
   final db = FirebaseFirestore.instance;
-
-  List<Marker> markerlist() {
-    db.collection('layananKesehatan').where('type', isEqualTo: 'bidan').get();
-    if (ismark.value == 'hopstial') {
-      return marker.value = [
-        Marker(
-          point: LatLng(3.4979292, 98.5757571),
-          builder: (context) => GestureDetector(
-            onTap: () => Shdialog.shdialogWidget(
-                context, "Rumah Sakit", "Rumah Sakit 1"),
-            child: const Icon(
-              Icons.pin_drop,
-            ),
-          ),
-        ),
-      ];
-    } else {
-      if (ismark.value == 'klinik') {
-        return marker.value = [
-          Marker(
-            point: LatLng(3.4971974, 98.5761576),
-            builder: (context) => GestureDetector(
-              onTap: () => Shdialog.shdialogWidget(context, "Klinik Kesehatan",
-                  "Klinik Bidan Erniwaty Sitanggang"),
-              child: const Icon(
-                Icons.pin_drop,
-              ),
-            ),
-          ),
-        ];
-      }
-      if (ismark.value == 'puskesmas') {
-        return marker.value = [
-          Marker(
-            point: LatLng(3.4978845, 98.5785515),
-            builder: (context) => GestureDetector(
-              onTap: () => Shdialog.shdialogWidget(
-                  context, "Puskesmas", "Poskesdes Tuntungan II"),
-              child: const Icon(
-                Icons.pin_drop,
-              ),
-            ),
-          ),
-        ];
-      }
-      return marker.value = [
-        Marker(
-          point: LatLng(3.4971974, 98.5761576),
-          builder: (context) => GestureDetector(
-            onTap: () => Shdialog.shdialogWidget(context, "Klinik Kesehatan",
-                "Klinik Bidan Erniwaty Sitanggang"),
-            child: const Icon(
-              Icons.pin_drop,
-            ),
-          ),
-        ),
-        Marker(
-          point: LatLng(3.4978845, 98.5785515),
-          builder: (context) => GestureDetector(
-            onTap: () => Shdialog.shdialogWidget(
-                context, "Puskesmas", "Poskesdes Tuntungan II"),
-            child: const Icon(
-              Icons.pin_drop,
-            ),
-          ),
-        ),
-        Marker(
-          point: LatLng(3.498430, 98.577097),
-          builder: (context) => GestureDetector(
-            onTap: () => Shdialog.shdialogWidget(context, "Apotik", "Apotik 1"),
-            child: const Icon(
-              Icons.pin_drop,
-            ),
-          ),
-        ),
-        Marker(
-          point: LatLng(3.4979925, 98.5770773),
-          builder: (context) => GestureDetector(
-            onTap: () => Shdialog.shdialogWidget(context, "Apotik", "Apotik 2"),
-            child: const Icon(
-              Icons.pin_drop,
-            ),
-          ),
-        ),
-      ];
-    }
-  }
 
   List<LatLng> kecamatan = [
     LatLng(3.498013, 98.592526),
