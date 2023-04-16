@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 
 class SpeedDialUtils {
-  final VoidCallback semuaFasilitas;
   final VoidCallback praktikDokter;
   final VoidCallback hospital;
   final VoidCallback apotik;
@@ -10,7 +9,6 @@ class SpeedDialUtils {
   final VoidCallback klinik;
 
   SpeedDialUtils({
-    required this.semuaFasilitas,
     required this.praktikDokter,
     required this.hospital,
     required this.apotik,
@@ -28,17 +26,8 @@ class SpeedDialUtils {
       renderOverlay: false,
       children: [
         SpeedDialChild(
-          child: const Icon(Icons.assignment_turned_in),
-          backgroundColor: const Color(0xFF801E48),
-          onTap: semuaFasilitas,
-          label: 'Default',
-          labelStyle: const TextStyle(
-              fontWeight: FontWeight.w500, color: Colors.white, fontSize: 16.0),
-          labelBackgroundColor: const Color(0xFF801E48),
-        ),
-        SpeedDialChild(
-          child: const Icon(Icons.assignment_turned_in),
-          backgroundColor: const Color(0xFF801E48),
+          child: Image.asset("assets/ic_praktikDokter.png"),
+          backgroundColor: const Color(0xFFFFFFFF),
           onTap: praktikDokter,
           label: 'Praktik Dokter',
           labelStyle: const TextStyle(
@@ -46,8 +35,8 @@ class SpeedDialUtils {
           labelBackgroundColor: const Color(0xFF801E48),
         ),
         SpeedDialChild(
-          child: const Icon(Icons.assignment_turned_in),
-          backgroundColor: const Color(0xFF801E48),
+          child: Image.asset("assets/ic_hospital.png"),
+          backgroundColor: const Color(0xFFFFFFFF),
           onTap: hospital,
           label: 'Rumah Sakit',
           labelStyle: const TextStyle(
@@ -55,8 +44,8 @@ class SpeedDialUtils {
           labelBackgroundColor: const Color(0xFF801E48),
         ),
         SpeedDialChild(
-          child: const Icon(Icons.assignment_turned_in),
-          backgroundColor: const Color(0xFF801E48),
+          child: Image.asset("assets/ic_apotik.png"),
+          backgroundColor: const Color(0xFFFFFFFF),
           onTap: apotik,
           label: 'Apotik',
           labelStyle: const TextStyle(
@@ -64,8 +53,8 @@ class SpeedDialUtils {
           labelBackgroundColor: const Color(0xFF801E48),
         ),
         SpeedDialChild(
-          child: const Icon(Icons.assignment_turned_in),
-          backgroundColor: const Color(0xFF801E48),
+          child: Image.asset("assets/ic_puskesmas.png"),
+          backgroundColor: const Color(0xFFFFFFFF),
           onTap: puskesmas,
           label: 'Puskesmas',
           labelStyle: const TextStyle(
@@ -73,8 +62,8 @@ class SpeedDialUtils {
           labelBackgroundColor: const Color(0xFF801E48),
         ),
         SpeedDialChild(
-          child: const Icon(Icons.assignment_turned_in),
-          backgroundColor: const Color(0xFF801E48),
+          child: Image.asset("assets/ic_klinik.png"),
+          backgroundColor: const Color(0xFFFFFFFF),
           onTap: klinik,
           label: 'Klinik',
           labelStyle: const TextStyle(

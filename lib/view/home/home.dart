@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:learn_flutter_map/controller/home_controller.dart';
 import 'package:learn_flutter_map/view/home/utils/shdialog.dart';
+import 'package:learn_flutter_map/view/home/utils/shdialog_info.dart';
 import 'package:learn_flutter_map/view/home/utils/speed_dial_utils.dart';
 
 class HomePage extends StatelessWidget {
@@ -19,11 +20,30 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Flutter Map"),
-        actions: const [],
+        title: const Text("GIS Kesehatan Tuntungan"),
+        actions: [
+          IconButton(
+            onPressed: () => homeC.filter.value = 'default',
+            icon: const Icon(
+              Icons.refresh,
+              size: 24.0,
+            ),
+          ),
+          IconButton(
+            onPressed: () => ShdialogInfo.shdialogWidget(
+              context,
+              "Pengembang",
+              "Developer : Rizky Akbar Siregar",
+              "UI Design : Khairrun Nisa",
+            ),
+            icon: const Icon(
+              Icons.contacts,
+              size: 24.0,
+            ),
+          ),
+        ],
       ),
       floatingActionButton: SpeedDialUtils(
-        semuaFasilitas: () => homeC.filter.value = 'default',
         praktikDokter: () => homeC.filter.value = 'praktik dokter',
         hospital: () => homeC.filter.value = 'hospital',
         apotik: () => homeC.filter.value = 'apotik',
@@ -78,7 +98,7 @@ class HomePage extends StatelessWidget {
                       onTap: () => Shdialog.shdialogWidget(
                         context,
                         doc['description'],
-                        doc['title'],
+                        "Kategori : ${doc['title']}",
                         doc['link'],
                       ),
                       child: const Icon(

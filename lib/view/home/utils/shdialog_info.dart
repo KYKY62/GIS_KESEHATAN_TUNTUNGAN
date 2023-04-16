@@ -1,24 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
 
-class Shdialog {
+class ShdialogInfo {
   static void shdialogWidget(
     context,
-    String name,
-    String kategori,
-    String link,
+    String title,
+    String nameFirst,
+    String nameSecond,
   ) async {
     await showDialog<void>(
       context: context,
       barrierDismissible: true,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text(name),
+          title: Text(title),
           content: SingleChildScrollView(
             child: ListBody(
               children: [
                 Text(
-                  kategori,
+                  nameFirst,
                   style: const TextStyle(
                     fontWeight: FontWeight.w500,
                   ),
@@ -26,18 +25,19 @@ class Shdialog {
                 const SizedBox(
                   height: 10.0,
                 ),
-                GestureDetector(
-                  onTap: () => launchUrl(
-                    Uri.parse(link),
-                    mode: LaunchMode.externalNonBrowserApplication,
+                Text(
+                  nameSecond,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.w500,
                   ),
-                  child: const Text(
-                    "Direction",
-                    style: TextStyle(
-                      fontWeight: FontWeight.w500,
-                      color: Colors.blue,
-                    ),
-                  ),
+                ),
+                const SizedBox(
+                  height: 20.0,
+                ),
+                Image.asset(
+                  'assets/logoUinsu.png',
+                  width: 20,
+                  height: 150,
                 )
               ],
             ),
