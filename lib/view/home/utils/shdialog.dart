@@ -6,6 +6,8 @@ class Shdialog {
     context,
     String name,
     String kategori,
+    String jamLayanan,
+    String kontak,
     String link,
   ) async {
     await showDialog<void>(
@@ -13,7 +15,7 @@ class Shdialog {
       barrierDismissible: true,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text(name),
+          title: Center(child: Text(name)),
           content: SingleChildScrollView(
             child: ListBody(
               children: [
@@ -26,13 +28,49 @@ class Shdialog {
                 const SizedBox(
                   height: 10.0,
                 ),
+                Text(
+                  jamLayanan,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+                const SizedBox(
+                  height: 10.0,
+                ),
+                GestureDetector(
+                  onTap: () => launchUrl(
+                    Uri.parse('tel:$kontak'),
+                    mode: LaunchMode.externalNonBrowserApplication,
+                  ),
+                  child: Row(
+                    children: [
+                      Text(
+                        kontak,
+                        style: const TextStyle(
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                      Container(
+                        margin: const EdgeInsets.only(bottom: 5),
+                        child: const Icon(
+                          Icons.contact_support,
+                          size: 10.0,
+                          color: Colors.blue,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(
+                  height: 10.0,
+                ),
                 GestureDetector(
                   onTap: () => launchUrl(
                     Uri.parse(link),
                     mode: LaunchMode.externalNonBrowserApplication,
                   ),
                   child: const Text(
-                    "Direction",
+                    "Lokasi Faskes",
                     style: TextStyle(
                       fontWeight: FontWeight.w500,
                       color: Colors.blue,

@@ -99,6 +99,8 @@ class HomePage extends StatelessWidget {
                         context,
                         doc['description'],
                         "Kategori : ${doc['title']}",
+                        "Jam Layanan : ${doc['work_hours']}",
+                        "Kontak : ${doc['kontak']}",
                         doc['link'],
                       ),
                       child: const Icon(
